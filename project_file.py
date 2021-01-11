@@ -10,7 +10,6 @@ get_site_info = requests.get(url)
 with open('all_parse.txt', 'w') as all_parse_file:
     all_parse_file.write(get_site_info.text)
 
-
 soup = BeautifulSoup(get_site_info.text)
 div_toys = soup.find_all('div', {'class': 'item_list_container'})
 
@@ -33,16 +32,19 @@ def parse_div(div):
     print(rating)
     toy_page = requests.get(toy_link)
     toy_description_soup = BeautifulSoup(toy_page.text)
+
     def descript_func(page):
         description_span = page.find('span', {'class': 'short-description'})
         description_span = str(description_span)
-        for i in who:
-            if i in description_span:
-                for_who.append(i)
-        for i in what:
-            if i in description_span:
-                for_what.append(i)
+        for a in who:
+            if a in description_span:
+                for_who.append(a)
+
+        for b in what:
+            if b in description_span:
+                for_what.append(b)
         print(f'It is suitable for {for_what}. {for_who} can use it.')
+
     descript_func(toy_description_soup)
     return [toy_name, toy_link, rating, for_who, for_what]
 
